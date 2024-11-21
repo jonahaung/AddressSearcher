@@ -5,7 +5,7 @@
 //  Created by Aung Ko Min on 22/11/24.
 //
 import Foundation
-import AppKit
+import SwiftUI
 
 public extension NSMutableParagraphStyle {
     nonisolated(unsafe) static let wordWrappingLineBreak: NSMutableParagraphStyle = {

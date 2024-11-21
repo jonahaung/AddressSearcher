@@ -9,11 +9,12 @@ import Combine
 
 public final class DebouncedText: ObservableObject {
     
-    @Published var text: String = ""
-    var onChange: ((String) -> Void)?
-    
+    @Published public var text: String = ""
+    public var onChange: ((String) -> Void)?
     private var canCelBag = Set<AnyCancellable>()
 
+    public init() {}
+    
     public init(_ seconds: TimeInterval = 0.2) {
         $text
             .removeDuplicates()

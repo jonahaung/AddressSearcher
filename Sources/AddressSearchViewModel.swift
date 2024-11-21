@@ -19,7 +19,7 @@ public final class AddressSearchViewModel {
     
     @ObservationIgnored private let datasource = AddressSearchDatasource(configuration: .init())
     @ObservationIgnored private var searchCompletionsTask: Task<Void, Never>?
-    @ObservationIgnored var debouncedText = DebouncedText()
+    @ObservationIgnored public var debouncedText = DebouncedText()
     
     public init() {
         debouncedText.onChange = { [weak self] text in

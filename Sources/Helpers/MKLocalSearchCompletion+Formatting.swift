@@ -11,10 +11,14 @@ import MapKit
 @available(macOS 12, *)
 extension MKLocalSearchCompletion {
     private func createHighlightedString(text: String, rangeValues: [NSValue]) -> AttributedString {
+#if os(iOS)
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.blue, .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak]
+#elseif os(macOS)
         let attributes = [NSAttributedString.Key.foregroundColor: NSColor.blue, .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak]
+#endif
         
         let highlightedString = NSMutableAttributedString(string: text)
-
+        
         let ranges = rangeValues.map { $0.rangeValue }
         for range in ranges {
             highlightedString.addAttributes(attributes, range: range)

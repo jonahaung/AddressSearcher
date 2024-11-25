@@ -35,7 +35,6 @@ public struct AddressSearchResultList: View {
                         
                         Text(suggestion.highlightedTitleStringForDisplay)
                     }
-                    .frame(maxWidth: .infinity)
                     .background()
                     .onTapGesture {
                         viewModel.updateSearchResults(for: suggestion)
@@ -53,7 +52,6 @@ public struct AddressSearchResultList: View {
                         Text(result.placemark.formattedAddress ?? result.description)
                     }
                     .frame(maxWidth: .infinity)
-                    .background()
                     .onTapGesture {
                         onSelect(result)
                     }

@@ -35,30 +35,19 @@ public struct AddressSearchResultList: View {
                             viewModel.updateSearchResults(for: suggestion)
                         } label: {
                             Text(suggestion.highlightedTitleStringForDisplay)
+                                .foregroundStyle(.secondary)
                         }
                     }
                 }
+            }
+            Section {
                 ForEach(viewModel.results, id: \.self) { result in
                     HStack {
                         Image(systemName: "mappin.and.ellipse")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 18, height: 18)
-                        Button {
-                            onSelect(result)
-                        } label: {
-                            Text(result.placemark.formattedAddress ?? result.description)
-                        }
-                    }
-                }
-            } footer: {
-                if viewModel.showLoading {
-                    HStack {
-                        Spacer()
-                        ProgressView()
-                            .controlSize(.mini)
-                            .foregroundStyle(Color.gray)
-                        Spacer()
+                        Text(result.placemark.formattedAddress ?? result.description)
                     }
                 }
             }

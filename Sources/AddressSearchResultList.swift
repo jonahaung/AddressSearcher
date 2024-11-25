@@ -29,13 +29,12 @@ public struct AddressSearchResultList: View {
                     Button {
                         viewModel.updateSearchResults(for: suggestion)
                     } label: {
-                        HStack(spacing: 8) {
+                        HStack(spacing: 10) {
                             Image(systemName: "magnifyingglass")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 18, height: 18)
+                                .frame(width: 19, height: 19)
                             Text(suggestion.highlightedTitleStringForDisplay)
-                            Spacer()
                         }
                     }
                     .buttonStyle(.borderless)
@@ -46,14 +45,12 @@ public struct AddressSearchResultList: View {
                     Button {
                         onSelect(result)
                     } label: {
-                        HStack(spacing: 8) {
+                        HStack(spacing: 10) {
                             Image(systemName: "mappin.and.ellipse")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 18, height: 18)
-                            
+                                .frame(width: 19, height: 19)
                             Text(result.placemark.formattedAddress ?? result.description)
-                            Spacer()
                         }
                     }
                     .buttonStyle(.borderless)

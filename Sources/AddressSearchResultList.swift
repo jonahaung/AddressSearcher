@@ -31,11 +31,11 @@ public struct AddressSearchResultList: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 18, height: 18)
+                            .foregroundStyle(Color.accentColor)
                         Button {
                             viewModel.updateSearchResults(for: suggestion)
                         } label: {
                             Text(suggestion.highlightedTitleStringForDisplay)
-                                .foregroundStyle(.secondary)
                         }
                     }
                 }
@@ -47,12 +47,12 @@ public struct AddressSearchResultList: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 18, height: 18)
+                            .foregroundStyle(Color.accentColor)
                         Text(result.placemark.formattedAddress ?? result.description)
                     }
                 }
             }
         }
-        .buttonStyle(.plain)
         .onAppear {
             viewModel.startGeneratingSearchCompletions()
         }

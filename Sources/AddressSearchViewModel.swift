@@ -16,23 +16,27 @@ public final class AddressSearchViewModel {
     public var searchSuggestions = [SearchSuggestion]()
     public var results = [MKMapItem]()
     
-    @ObservationIgnored private let datasource = AddressSearchDatasource(configuration: .init())
+    @ObservationIgnored private let datasource: AddressSearchDatasource
     @ObservationIgnored private var searchCompletionsTask: Task<Void, Never>?
-    @ObservationIgnored public var debouncedText = DebouncedText()
+    @ObservationIgnored public var debouncedText: DebouncedText
     @ObservationIgnored private var cancellables: Set<AnyCancellable> = []
-    public init() {
+    
+    public init(searchText: DebouncedText, _ configuration: AddressSearchConfiguration) {
+        datasource = .init(configuration: configuration)
+        debouncedText = searchText
         debouncedText.$text
             .removeDuplicates()
             .debounce(for: 0.2, scheduler: RunLoop.main)
             .sink { [weak self] value in
                 guard let self else { return }
                 self.updateSearchResults(for: value)
-            }.store(in: &cancellables)
+            }
+            .store(in: &cancellables)
     }
 }
 
-extension AddressSearchViewModel {
-    public func startGeneratingSearchCompletions() {
+public extension AddressSearchViewModel {
+    func startGeneratingSearchCompletions() {
         let searchCompletionStream = AsyncStream<[MKLocalSearchCompletion]>.makeStream()
         datasource.startProvidingSearchCompletions(with: searchCompletionStream.continuation)
         searchCompletionsTask = searchCompletionsTask ?? Task { @MainActor in
@@ -45,22 +49,14 @@ extension AddressSearchViewModel {
             }
         }
     }
-    public func stopGeneratingSearchCompletions() {
+    func stopGeneratingSearchCompletions() {
         datasource.stopProvidingSearchCompletions()
         searchCompletionsTask?.cancel()
         searchCompletionsTask = nil
     }
 }
-
-extension AddressSearchViewModel {
-    private func displaySearchResults(_ results: [MKMapItem]) {
-        self.results = results
-    }
-    private func updateSearchResults(for text: String) {
-        displaySearchResults([])
-        datasource.provideCompletionSuggestions(for: text)
-    }
-    public func updateSearchResults(for searchSuggestion: SearchSuggestion) {
+public extension AddressSearchViewModel {
+    func updateSearchResults(for searchSuggestion: SearchSuggestion) {
         let completion = searchSuggestion.completion
         stopGeneratingSearchCompletions()
         debouncedText.text = completion.title
@@ -71,7 +67,7 @@ extension AddressSearchViewModel {
             startGeneratingSearchCompletions()
         }
     }
-    public func searchButtonClicked() {
+    func searchButtonClicked() {
         Task {
             stopGeneratingSearchCompletions()
             searchSuggestions.removeAll()
@@ -79,5 +75,15 @@ extension AddressSearchViewModel {
             let searchResults = await datasource.search(for: text)
             displaySearchResults(searchResults)
         }
+    }
+}
+
+extension AddressSearchViewModel {
+    private func displaySearchResults(_ results: [MKMapItem]) {
+        self.results = results
+    }
+    private func updateSearchResults(for text: String) {
+        displaySearchResults([])
+        datasource.provideCompletionSuggestions(for: text)
     }
 }

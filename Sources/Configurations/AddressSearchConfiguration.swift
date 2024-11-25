@@ -10,11 +10,30 @@ import Foundation
 import MapKit
 import SwiftUI
 
-@Observable public  class AddressSearchConfiguration {
-    public enum RegionPriority: CaseIterable {
+@MainActor
+@Observable public class AddressSearchConfiguration {
+    
+    public static var shared: AddressSearchConfiguration {
+        get {
+            _shared.value
+        }
+        set {
+            _shared.value = newValue
+        }
+    }
+    private static let _shared = Atomic(value: AddressSearchConfiguration())
+    
+    public var resultType: SearchResultType = .pointsOfInterest
+    public var pointOfInterestOptions: PointOfInterestOptions = .anyCategory
+    public var addressOptions: AddressOptions = .anyField
+    public var region: MKCoordinateRegion = MKCoordinateRegion.init(center: .init(latitude: 1.38, longitude: 103.78), latitudinalMeters: 50 * 1000, longitudinalMeters: 28 * 1000)
+    public var regionPriority: RegionPriority = .required
+}
+
+public extension AddressSearchConfiguration {
+    enum RegionPriority: CaseIterable {
         case `default`
         case required
-        
         public var localSearchRegionPriority: MKLocalSearchRegionPriority {
             switch self {
             case .default:
@@ -24,7 +43,7 @@ import SwiftUI
             }
         }
     }
-    public enum SearchResultType: CaseIterable {
+    enum SearchResultType: CaseIterable {
         case addresses
         case pointsOfInterest
         public var completionResultType: MKLocalSearchCompleter.ResultType {
@@ -45,7 +64,7 @@ import SwiftUI
             }
         }
     }
-    public enum PointOfInterestOptions: CaseIterable {
+    enum PointOfInterestOptions: CaseIterable {
         case includeTravelCategories
         case excludeTravelCategories
         case anyCategory
@@ -73,7 +92,7 @@ import SwiftUI
         }
     }
     
-    public enum AddressOptions: CaseIterable {
+    enum AddressOptions: CaseIterable {
         case anyField
         case includeCityAndPostalCode
         
@@ -86,10 +105,4 @@ import SwiftUI
             }
         }
     }
-    
-    public var resultType: SearchResultType = .pointsOfInterest
-    public var pointOfInterestOptions: PointOfInterestOptions = .anyCategory
-    public var addressOptions: AddressOptions = .anyField
-    public var region: MKCoordinateRegion = MKCoordinateRegion.init(center: .init(latitude: 1.38, longitude: 103.78), latitudinalMeters: 50 * 1000, longitudinalMeters: 28 * 1000)
-    public var regionPriority: RegionPriority = .required
 }

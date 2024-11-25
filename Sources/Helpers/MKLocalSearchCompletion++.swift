@@ -1,5 +1,5 @@
 //
-//  MKLocalSearchCompletion+Formatting.swift
+//  MKLocalSearchCompletion++.swift
 //  AddressSearchExample
 //
 //  Created by Aung Ko Min on 21/11/24.
@@ -11,7 +11,7 @@ import MapKit
 public extension MKLocalSearchCompletion {
     private func createHighlightedString(text: String, rangeValues: [NSValue]) -> AttributedString {
 #if os(iOS)
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.blue, .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak]
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.accentColor, .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak]
 #elseif os(macOS)
         let attributes = [NSAttributedString.Key.foregroundColor: NSColor.blue, .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak]
 #endif

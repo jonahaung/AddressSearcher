@@ -6,7 +6,6 @@
 //
 import SwiftUI
 
-
 public final class DebouncedText: ObservableObject {
     @Published public var text: String = ""
     public init() {}

@@ -14,8 +14,6 @@ import SwiftUI
 @MainActor
 public final class AddressSearchDatasource: NSObject {
     
-    private let searchLogging = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "Search Completions")
-    
     private let mapConfiguration: AddressSearchConfiguration
     private var searchCompleter: MKLocalSearchCompleter?
     private var resultStreamContinuation: AsyncStream<[MKLocalSearchCompletion]>.Continuation?
@@ -59,7 +57,7 @@ public final class AddressSearchDatasource: NSObject {
             let response = try await search.start()
             results = response.mapItems
         } catch let error {
-            searchLogging.error("Search error: \(error.localizedDescription)")
+            debugPrint("Search error: \(error.localizedDescription)")
             results = []
         }
         
@@ -98,10 +96,9 @@ extension AddressSearchDatasource: @unchecked Sendable, MKLocalSearchCompleterDe
             resultStreamContinuation?.yield(suggestedCompletions)
         }
     }
-    
     nonisolated public func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
         Task { @MainActor in
-            searchLogging.error("Search completion failed for query \"\(completer.queryFragment)\". Reason: \(error.localizedDescription)")
+            debugPrint("Search completion failed for query \"\(completer.queryFragment)\". Reason: \(error.localizedDescription)")
             resultStreamContinuation?.yield([])
         }
     }

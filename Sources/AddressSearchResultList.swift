@@ -26,21 +26,19 @@ public struct AddressSearchResultList: View {
         List {
             Section {
                 ForEach(viewModel.searchSuggestions) { suggestion in
-                    VStack(alignment: .leading) {
-                        HStack(spacing: 10) {
-                            Image(systemName: "magnifyingglass")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 19, height: 19)
-                            Text(suggestion.highlightedTitleStringForDisplay)
-                        }
-                        .frame(maxWidth: .infinity)
-                    }.overlay {
-                        Button {
-                            viewModel.updateSearchResults(for: suggestion)
-                        } label: {
-                            Color.white.opacity(0.00001)
-                        }
+                    HStack(spacing: 10) {
+                        Image(systemName: "magnifyingglass")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 19, height: 19)
+                            .layoutPriority(2)
+                        Text(suggestion.highlightedTitleStringForDisplay)
+                            .layoutPriority(2)
+                        Color.white.opacity(0.00001)
+                            .layoutPriority(1)
+                    }
+                    .onTapGesture {
+                        viewModel.updateSearchResults(for: suggestion)
                     }
                 }
             }

@@ -26,11 +26,12 @@ public struct AddressSearchResultList: View {
         List {
             Section {
                 ForEach(viewModel.searchSuggestions) { suggestion in
-                    HStack(spacing: 10) {
+                    HStack(spacing: 12) {
                         Image(systemName: "magnifyingglass")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 19, height: 19)
+                            .frame(width: 18, height: 18)
+                            .foregroundStyle(Color.accentColor)
                             .layoutPriority(2)
                         Text(suggestion.highlightedTitleStringForDisplay)
                             .layoutPriority(2)
@@ -43,12 +44,13 @@ public struct AddressSearchResultList: View {
                 }
             }
             Section {
-                ForEach(viewModel.results, id: \.self) { result in
-                    HStack(spacing: 10) {
+                ForEach(viewModel.results) { result in
+                    HStack(spacing: 12) {
                         Image(systemName: "mappin.and.ellipse")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 19, height: 19)
+                            .frame(width: 18, height: 18)
+                            .foregroundStyle(Color.accentColor)
                         Text(result.placemark.formattedAddress ?? result.description)
                     }
                     .onTapGesture {

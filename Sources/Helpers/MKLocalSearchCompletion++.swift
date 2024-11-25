@@ -11,12 +11,12 @@ import MapKit
 public extension MKLocalSearchCompletion {
     private func createHighlightedString(text: String, rangeValues: [NSValue]) -> AttributedString {
 #if os(iOS)
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue, .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak, .font: UIFont.systemFontSize(of: UIFont.labelFontSize, weight: .medium)]
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue, .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak, .font: UIFont.preferredFont(forTextStyle: .headline)]
 #elseif os(macOS)
         let attributes = [NSAttributedString.Key.foregroundColor: NSColor.blue, .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak]
 #endif
 #if os(iOS)
-        let highlightedString = NSMutableAttributedString(string: text, attributes: [.font: UIFont.systemFontSize(of: UIFont.labelFontSize)])
+        let highlightedString = NSMutableAttributedString(string: text, attributes: [.font: UIFont.prefetchFont(forTextStyle: .callout)])
 #elseif os(macOS)
         let highlightedString = NSMutableAttributedString(string: text)
 #endif

@@ -15,7 +15,7 @@ public final class AddressSearchViewModel {
     
     public var searchSuggestions = [SearchSuggestion]()
     public var results = [MKMapItem]()
-    
+    public var showLoading = false
     @ObservationIgnored private let datasource: AddressSearchDatasource
     @ObservationIgnored private var searchCompletionsTask: Task<Void, Never>?
     @ObservationIgnored public var debouncedText: DebouncedText
@@ -37,6 +37,7 @@ public final class AddressSearchViewModel {
 
 public extension AddressSearchViewModel {
     func startGeneratingSearchCompletions() {
+        showLoading = true
         let searchCompletionStream = AsyncStream<[MKLocalSearchCompletion]>.makeStream()
         datasource.startProvidingSearchCompletions(with: searchCompletionStream.continuation)
         searchCompletionsTask = searchCompletionsTask ?? Task { @MainActor in
@@ -53,6 +54,7 @@ public extension AddressSearchViewModel {
         datasource.stopProvidingSearchCompletions()
         searchCompletionsTask?.cancel()
         searchCompletionsTask = nil
+        showLoading = false
     }
 }
 public extension AddressSearchViewModel {

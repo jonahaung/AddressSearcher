@@ -39,6 +39,8 @@ public struct AddressSearchResultList: View {
                             }
                         }
                     }
+                } header: {
+                    Text("Suggessions")
                 }
             }
             if !viewModel.results.isEmpty {

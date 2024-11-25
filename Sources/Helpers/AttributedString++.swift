@@ -6,7 +6,6 @@
 //
 import SwiftUI
 
-@available(macOS 12, *)
 public extension AttributedString {
     var string: String {
         NSAttributedString(self).string

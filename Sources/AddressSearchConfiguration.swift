@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 import SwiftUI
-@available(macOS 15, *)
+
 @Observable public  class AddressSearchConfiguration {
     public enum RegionPriority: CaseIterable {
         case `default`

@@ -10,7 +10,6 @@ import Foundation
 @preconcurrency import MapKit
 import OSLog
 import SwiftUI
-@available(macOS 15, *)
 
 @MainActor
 public final class AddressSearchDatasource: NSObject {
@@ -92,7 +91,6 @@ public final class AddressSearchDatasource: NSObject {
         searchCompleter?.queryFragment = query
     }
 }
-@available(macOS 15, *)
 extension AddressSearchDatasource: @unchecked Sendable, MKLocalSearchCompleterDelegate {
     nonisolated public func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         Task { @MainActor in

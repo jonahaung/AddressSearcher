@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-extension MKPointOfInterestCategory {
+public extension MKPointOfInterestCategory {
     
     @available(macOS 15.0, *)
     static let travelPointsOfInterest: [MKPointOfInterestCategory] = [

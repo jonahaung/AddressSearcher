@@ -8,7 +8,6 @@
 import SwiftUI
 import Combine
 @preconcurrency import MapKit
-@available(macOS 15, *)
 
 @MainActor
 @Observable
@@ -20,15 +19,18 @@ public final class AddressSearchViewModel {
     @ObservationIgnored private let datasource = AddressSearchDatasource(configuration: .init())
     @ObservationIgnored private var searchCompletionsTask: Task<Void, Never>?
     @ObservationIgnored public var debouncedText = DebouncedText()
-    
+    @ObservationIgnored private var cancellables: Set<AnyCancellable> = []
     public init() {
-        debouncedText.onChange = { [weak self] text in
-            guard let self else { return }
-            self.updateSearchResults(for: text)
-        }
+        debouncedText.$text
+            .removeDuplicates()
+            .debounce(for: 0.2, scheduler: RunLoop.main)
+            .sink { [weak self] value in
+                guard let self else { return }
+                self.updateSearchResults(for: value)
+            }.store(in: &cancellables)
     }
 }
-@available(macOS 15, *)
+
 extension AddressSearchViewModel {
     public func startGeneratingSearchCompletions() {
         let searchCompletionStream = AsyncStream<[MKLocalSearchCompletion]>.makeStream()
@@ -49,7 +51,7 @@ extension AddressSearchViewModel {
         searchCompletionsTask = nil
     }
 }
-@available(macOS 15, *)
+
 extension AddressSearchViewModel {
     private func displaySearchResults(_ results: [MKMapItem]) {
         self.results = results

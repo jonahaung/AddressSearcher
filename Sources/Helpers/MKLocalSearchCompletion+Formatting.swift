@@ -8,8 +8,7 @@
 import SwiftUI
 import MapKit
 
-@available(macOS 12, *)
-extension MKLocalSearchCompletion {
+public extension MKLocalSearchCompletion {
     private func createHighlightedString(text: String, rangeValues: [NSValue]) -> AttributedString {
 #if os(iOS)
         let attributes = [NSAttributedString.Key.foregroundColor: UIColor.blue, .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak]

@@ -32,11 +32,13 @@ public struct AddressSearchResultList: View {
                             .scaledToFit()
                             .frame(width: 18, height: 18)
                             .foregroundStyle(Color.accentColor)
-                        Button {
-                            viewModel.updateSearchResults(for: suggestion)
-                        } label: {
-                            Text(suggestion.highlightedTitleStringForDisplay)
-                        }
+                        
+                        Text(suggestion.highlightedTitleStringForDisplay)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .background()
+                    .onTapGesture {
+                        viewModel.updateSearchResults(for: suggestion)
                     }
                 }
             }
@@ -49,6 +51,11 @@ public struct AddressSearchResultList: View {
                             .frame(width: 18, height: 18)
                             .foregroundStyle(Color.accentColor)
                         Text(result.placemark.formattedAddress ?? result.description)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .background()
+                    .onTapGesture {
+                        onSelect(result)
                     }
                 }
             }

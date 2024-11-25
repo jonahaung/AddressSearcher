@@ -11,7 +11,7 @@ import MapKit
 public extension MKLocalSearchCompletion {
     private func createHighlightedString(text: String, rangeValues: [NSValue]) -> AttributedString {
 #if os(iOS)
-        let attributes = [.paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak, .font: UIFont.systemFont(ofSize: UIFont.labelFontSize, weight: .medium)]
+        let attributes = [NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak, .font: UIFont.systemFont(ofSize: UIFont.labelFontSize, weight: .medium)]
 #elseif os(macOS)
         let attributes = [NSAttributedString.Key.foregroundColor: NSColor.blue, .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak]
 #endif

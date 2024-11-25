@@ -24,47 +24,42 @@ public struct AddressSearchResultList: View {
     
     public var body: some View {
         List {
-            if !viewModel.searchSuggestions.isEmpty {
-                Section {
-                    ForEach(viewModel.searchSuggestions) { suggestion in
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 18, height: 18)
-                            Button {
-                                viewModel.updateSearchResults(for: suggestion)
-                            } label: {
-                                Text(suggestion.highlightedTitleStringForDisplay)
-                            }
+            Section {
+                ForEach(viewModel.searchSuggestions) { suggestion in
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 18, height: 18)
+                        Button {
+                            viewModel.updateSearchResults(for: suggestion)
+                        } label: {
+                            Text(suggestion.highlightedTitleStringForDisplay)
                         }
                     }
-                } header: {
-                    Text("Suggessions")
                 }
-            }
-            if !viewModel.results.isEmpty {
-                Section {
-                    ForEach(viewModel.results, id: \.self) { result in
-                        HStack {
-                            Image(systemName: "mappin.and.ellipse")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 18, height: 18)
-                            Button {
-                                onSelect(result)
-                            } label: {
-                                Text(result.placemark.formattedAddress ?? result.description)
-                            }
+                ForEach(viewModel.results, id: \.self) { result in
+                    HStack {
+                        Image(systemName: "mappin.and.ellipse")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 18, height: 18)
+                        Button {
+                            onSelect(result)
+                        } label: {
+                            Text(result.placemark.formattedAddress ?? result.description)
                         }
                     }
-                } header: {
-                    Text("Results")
                 }
-            }
-            if viewModel.debouncedText.text.isEmpty == false && viewModel.results.isEmpty && viewModel.searchSuggestions.isEmpty {
-                Section {
-                    ContentUnavailableView.search
+            } footer: {
+                if viewModel.showLoading {
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                            .controlSize(.mini)
+                            .foregroundStyle(Color.gray)
+                        Spacer()
+                    }
                 }
             }
         }

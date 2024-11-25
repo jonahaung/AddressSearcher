@@ -44,7 +44,7 @@ public struct AddressSearchResultList: View {
                 }
             }
             Section {
-                ForEach(viewModel.results) { result in
+                ForEach(viewModel.results, id: \.self) { result in
                     HStack(spacing: 12) {
                         Image(systemName: "mappin.and.ellipse")
                             .resizable()

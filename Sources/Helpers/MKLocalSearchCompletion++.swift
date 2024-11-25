@@ -16,7 +16,7 @@ public extension MKLocalSearchCompletion {
         let attributes = [NSAttributedString.Key.foregroundColor: NSColor.blue, .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak]
 #endif
 #if os(iOS)
-        let highlightedString = NSMutableAttributedString(string: text, attributes: [.font: UIFont.prefetchFont(forTextStyle: .callout)])
+        let highlightedString = NSMutableAttributedString(string: text, attributes: [.font: UIFont.preferredFont(forTextStyle: .callout)])
 #elseif os(macOS)
         let highlightedString = NSMutableAttributedString(string: text)
 #endif

@@ -26,9 +26,7 @@ public struct AddressSearchResultList: View {
         List {
             Section {
                 ForEach(viewModel.searchSuggestions) { suggestion in
-                    Button {
-                        viewModel.updateSearchResults(for: suggestion)
-                    } label: {
+                    VStack(alignment: .leading) {
                         HStack(spacing: 10) {
                             Image(systemName: "magnifyingglass")
                                 .resizable()
@@ -36,24 +34,28 @@ public struct AddressSearchResultList: View {
                                 .frame(width: 19, height: 19)
                             Text(suggestion.highlightedTitleStringForDisplay)
                         }
+                        .frame(maxWidth: .infinity)
+                    }.overlay {
+                        Button {
+                            viewModel.updateSearchResults(for: suggestion)
+                        } label: {
+                            Color.white.opacity(0.00001)
+                        }
                     }
-                    .buttonStyle(.borderless)
                 }
             }
             Section {
                 ForEach(viewModel.results, id: \.self) { result in
-                    Button {
-                        onSelect(result)
-                    } label: {
-                        HStack(spacing: 10) {
-                            Image(systemName: "mappin.and.ellipse")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 19, height: 19)
-                            Text(result.placemark.formattedAddress ?? result.description)
-                        }
+                    HStack(spacing: 10) {
+                        Image(systemName: "mappin.and.ellipse")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 19, height: 19)
+                        Text(result.placemark.formattedAddress ?? result.description)
                     }
-                    .buttonStyle(.borderless)
+                    .onTapGesture {
+                        onSelect(result)
+                    }
                 }
             }
         }

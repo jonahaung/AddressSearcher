@@ -26,35 +26,37 @@ public struct AddressSearchResultList: View {
         List {
             Section {
                 ForEach(viewModel.searchSuggestions) { suggestion in
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 18, height: 18)
-                            .foregroundStyle(Color.accentColor)
-                        
-                        Text(suggestion.highlightedTitleStringForDisplay)
-                    }
-                    .background()
-                    .onTapGesture {
+                    Button {
                         viewModel.updateSearchResults(for: suggestion)
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: "magnifyingglass")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 18, height: 18)
+                            Text(suggestion.highlightedTitleStringForDisplay)
+                            Spacer()
+                        }
                     }
+                    .buttonStyle(.borderless)
                 }
             }
             Section {
                 ForEach(viewModel.results, id: \.self) { result in
-                    HStack {
-                        Image(systemName: "mappin.and.ellipse")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 18, height: 18)
-                            .foregroundStyle(Color.accentColor)
-                        Text(result.placemark.formattedAddress ?? result.description)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .onTapGesture {
+                    Button {
                         onSelect(result)
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: "mappin.and.ellipse")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 18, height: 18)
+                            
+                            Text(result.placemark.formattedAddress ?? result.description)
+                            Spacer()
+                        }
                     }
+                    .buttonStyle(.borderless)
                 }
             }
         }
